@@ -1,0 +1,7 @@
+.env
+.idea/
+jars/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+data/

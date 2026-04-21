@@ -1,0 +1,60 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_etl
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3306:3306"
+    networks:
+      - data-network
+
+  cassandra:
+    image: cassandra:4.1
+    container_name: cassandra_etl
+    restart: always
+    ports:
+      - "9042:9042"
+    networks:
+      - data-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana_etl
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - data-network
+
+  recruitment:
+    build: .
+    container_name: recruitment
+    user: root
+    ports:
+      - "8888:8888"
+      - "4040:4040"
+    environment:
+      - JUPYTER_TOKEN=${JUPYTER_TOKEN}
+      - GRANT_SUDO=yes
+      - SPARK_HOME=/usr/local/spark
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - CASSANDRA_HOST=cassandra_etl
+    volumes:
+      - .:/home/jovyan/work
+
+    command: start-notebook.sh --NotebookApp.token='${JUPYTER_TOKEN}'
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+    networks:
+      - data-network
+
+networks:
+  data-network:
+    driver: bridge
