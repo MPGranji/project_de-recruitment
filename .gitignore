@@ -19,6 +19,5 @@ venv/
 .vscode/
 
 # Project specific
-images/
 jars/
 data/
