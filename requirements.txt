@@ -1,0 +1,12 @@
+cassandra-driver
+SQLAlchemy>=1.4
+pymysql
+mysql-connector-python
+python-dotenv
+pandas
+openpyxl
+ipykernel
+findspark
+pyspark==3.5.0
+time_uuid
+kafka-python
