@@ -50,16 +50,16 @@ Recruitment ETL is the process of turning raw "digital footprints" of job seeker
 The project is organized into functional modules for data generation, streaming, batch processing, and orchestration:
 
 ### 📁 `scripts/` (Core Processing Logic)
-- **[kafka_producer.py](file:///e:/DE_NEXT/Recruitment_Project_Ver2/scripts/kafka_producer.py)**: A synthetic data engine that generates randomized recruitment events (clicks, applications) and publishes them to Kafka topics. It simulates real-world user behavior.
-- **[kafka_to_cassandra.py](file:///e:/DE_NEXT/Recruitment_Project_Ver2/scripts/kafka_to_cassandra.py)**: The Real-time Consumer. It uses Spark Structured Streaming to listen to Kafka, parse JSON payloads, and persist the raw data into Cassandra.
-- **[ETL_Pipeline_Airflow.py](file:///e:/DE_NEXT/Recruitment_Project_Ver2/scripts/ETL_Pipeline_Airflow.py)**: The Batch Processor. Specifically optimized for Airflow, this script performs incremental data extraction from Cassandra, aggregates metrics, joins with MySQL metadata, and syncs the final results to the reporting table.
-- **[ETL_Pipeline.py](file:///e:/DE_NEXT/Recruitment_Project_Ver2/scripts/ETL_Pipeline.py)**: A standalone, continuous synchronization script used for development and local testing without Airflow.
+- **[kafka_producer.py](scripts/kafka_producer.py)**: A synthetic data engine that generates randomized recruitment events (clicks, applications) and publishes them to Kafka topics. It simulates real-world user behavior.
+- **[kafka_to_cassandra.py](scripts/kafka_to_cassandra.py)**: The Real-time Consumer. It uses Spark Structured Streaming to listen to Kafka, parse JSON payloads, and persist the raw data into Cassandra.
+- **[ETL_Pipeline_Airflow.py](scripts/ETL_Pipeline_Airflow.py)**: The Batch Processor. Specifically optimized for Airflow, this script performs incremental data extraction from Cassandra, aggregates metrics, joins with MySQL metadata, and syncs the final results to the reporting table.
+- **[ETL_Pipeline.py](scripts/ETL_Pipeline.py)**: A standalone, continuous synchronization script used for development and local testing without Airflow.
 
 ### 📁 `airflow/dags/` (Orchestration)
-- **[recruitment_etl_dag.py](file:///e:/DE_NEXT/Recruitment_Project_Ver2/airflow/dags/recruitment_etl_dag.py)**: The Airflow DAG definition. It orchestrates the execution of the batch pipeline, defining the 1-minute schedule interval, retry policies, and task dependencies.
+- **[recruitment_etl_dag.py](airflow/dags/recruitment_etl_dag.py)**: The Airflow DAG definition. It orchestrates the execution of the batch pipeline, defining the 1-minute schedule interval, retry policies, and task dependencies.
 
 ### ⚙️ Configuration & Infrastructure
-- **[.env](file:///e:/DE_NEXT/Recruitment_Project_Ver2/.env)**: Centralized environment variables containing database credentials, hostnames, ports, and Spark JAR paths.
+- **[.env.example](.env.example)**: Template for configuring database connections, ports, and Spark JAR paths.
 - **[docker-compose.yml]**: Orchestrates the multi-container environment (Kafka, Spark, Cassandra, MySQL, and Airflow).
 
 ## 5. Data Visualization & Reporting
